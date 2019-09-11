@@ -16,5 +16,11 @@ public class AIPData {
         return new AIPData(buyInPrice, buyInCount);
     }
 
-
+    @Override
+    public String toString() {
+        return "AIPData{" +
+                "buyInPrice=" + buyInPrice +
+                ", buyInCount=" + buyInCount +
+                '}';
+    }
 }

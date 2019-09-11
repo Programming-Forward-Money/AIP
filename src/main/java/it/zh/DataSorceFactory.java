@@ -8,7 +8,7 @@ public class DataSorceFactory {
      * @return
      */
     public static StockDataSource getDataSource(){
-        return null;
+        return new FileStockDataSource();
     }
 
 }

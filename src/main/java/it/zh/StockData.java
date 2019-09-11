@@ -12,6 +12,16 @@ public class StockData {
     private BigDecimal openPrice;
     private BigDecimal closePrice;
 
+    public StockData(LocalDate date, BigDecimal openPrice, BigDecimal closePrice) {
+        this.date = date;
+        this.openPrice = openPrice;
+        this.closePrice = closePrice;
+    }
+
+    public static StockData of(LocalDate date, BigDecimal openPrice, BigDecimal closePrice){
+        return new StockData(date, openPrice, closePrice);
+    }
+
     public LocalDate getDate() {
         return date;
     }
