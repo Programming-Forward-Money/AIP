@@ -1,19 +1,30 @@
 package it.zh.bean;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class AIPData {
 
+    private LocalDate date;
     private BigDecimal buyInPrice;
     private BigDecimal buyInCount;
 
-    public AIPData(BigDecimal buyInPrice, BigDecimal buyInCount) {
+    public AIPData(LocalDate date, BigDecimal buyInPrice, BigDecimal buyInCount) {
+        this.date = date;
         this.buyInPrice = buyInPrice;
         this.buyInCount = buyInCount;
     }
 
-    public static AIPData of(BigDecimal buyInPrice, BigDecimal buyInCount){
-        return new AIPData(buyInPrice, buyInCount);
+    public static AIPData of(LocalDate date, BigDecimal buyInPrice, BigDecimal buyInCount){
+        return new AIPData(date, buyInPrice, buyInCount);
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public BigDecimal getBuyInPrice() {

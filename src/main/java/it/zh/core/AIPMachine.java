@@ -48,7 +48,7 @@ public class AIPMachine {
                 BigDecimal openPrice = data.getValue().getOpenPrice();
                 // 用预算额度算出这次，最多能买多少份
                 BigDecimal count = budgetMoney.divide(openPrice, 0, BigDecimal.ROUND_DOWN);
-                result.put(data.getKey(), AIPData.of(openPrice, count));
+                result.put(data.getKey(), AIPData.of(data.getKey(), openPrice, count));
             }
         }
 

@@ -8,7 +8,9 @@ import it.zh.data.DataSorceFactory;
 import it.zh.data.StockDataSource;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -32,12 +34,14 @@ public class App {
         AIPMachine instance = AIPMachine.getInstance(AIPCycle.MONTH, budgetMoney);
         LinkedHashMap<LocalDate, AIPData> aipDataMap = instance.doAip(dataMap);
 
-        // 展示所有的定投计划，并取出最后一个定投点的价格，作为一次性卖出价
-        BigDecimal finalPrice = BigDecimal.ZERO;
+        // 展示所有的定投计划，并取出第一个和最后一个定投点的数据
+        AIPData firstData = null;
+        AIPData lastData = null;
         Iterator<Map.Entry<LocalDate, AIPData>> iterator = aipDataMap.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<LocalDate, AIPData> next = iterator.next();
-            finalPrice = next.getValue().getBuyInPrice();
+            firstData = firstData == null ? next.getValue() : firstData;
+            lastData = next.getValue();
             System.out.println(next.getKey() + "->" + next.getValue());
         }
 
@@ -45,6 +49,7 @@ public class App {
          * 定投的收益的计算方式：
          * Σ(最终卖出价 - 每个定投点买入的价)*每个定投点买入的数量
          */
+        BigDecimal finalPrice = lastData.getBuyInPrice();
         BigDecimal totalEarn = BigDecimal.ZERO;
         BigDecimal totalCost = BigDecimal.ZERO;
         iterator = aipDataMap.entrySet().iterator();
@@ -58,8 +63,9 @@ public class App {
             totalEarn = totalEarn.add(finalPrice.subtract(buyInPrice).multiply(buyInCount));
         }
 
-        System.out.println(String.format("总成本：%s，总收益：%s，总收益率：%s", totalCost, totalEarn,
-                totalEarn.divide(totalCost, 10, BigDecimal.ROUND_HALF_DOWN)));
+        System.out.println(String.format("定投覆盖了%s天，总成本：%s，总收益：%s，总收益率：%s",
+                lastData.getDate().toEpochDay() - firstData.getDate().toEpochDay(),
+                totalCost, totalEarn, totalEarn.divide(totalCost, 10, BigDecimal.ROUND_HALF_DOWN)));
     }
 
 }
