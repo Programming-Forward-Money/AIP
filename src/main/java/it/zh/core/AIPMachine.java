@@ -1,5 +1,9 @@
-package it.zh;
+package it.zh.core;
 
+
+import it.zh.bean.AIPCycle;
+import it.zh.bean.AIPData;
+import it.zh.bean.StockData;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

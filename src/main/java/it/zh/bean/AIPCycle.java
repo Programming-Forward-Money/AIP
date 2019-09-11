@@ -1,4 +1,4 @@
-package it.zh;
+package it.zh.bean;
 
 import java.time.format.DateTimeFormatter;
 

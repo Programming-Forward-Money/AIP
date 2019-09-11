@@ -1,4 +1,4 @@
-package it.zh;
+package it.zh.data;
 
 public class DataSorceFactory {
 

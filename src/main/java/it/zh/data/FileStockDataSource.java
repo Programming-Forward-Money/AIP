@@ -1,7 +1,8 @@
-package it.zh;
+package it.zh.data;
+
+import it.zh.bean.StockData;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;

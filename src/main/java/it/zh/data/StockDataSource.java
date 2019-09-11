@@ -1,4 +1,6 @@
-package it.zh;
+package it.zh.data;
+
+import it.zh.bean.StockData;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
