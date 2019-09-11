@@ -13,7 +13,12 @@ import java.util.Map;
 public class App {
 
     public static void main( String[] args ){
-        LinkedHashMap<LocalDate, StockData> dataMap = DataSorceFactory.getDataSource().getDataMap("yili", LocalDate.of(2018, 1, 1), LocalDate.of(2019, 4, 1));
+        String code = "yili1";
+        LocalDate start = LocalDate.of(2018, 1, 1);
+        LocalDate end = LocalDate.of(2019, 4, 1);
+
+        StockDataSource dataSource = DataSorceFactory.getDataSource();
+        LinkedHashMap<LocalDate, StockData> dataMap = dataSource.getDataMap(code, start, end);
         AIPMachine instance = AIPMachine.getInstance(AIPCycle.MONTH, BigDecimal.valueOf(2000));
         LinkedHashMap<LocalDate, AIPData> aipDataMap = instance.doAip(dataMap);
 

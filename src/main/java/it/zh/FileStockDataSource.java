@@ -20,7 +20,12 @@ public class FileStockDataSource implements StockDataSource {
     public LinkedHashMap<LocalDate, StockData> getDataMap(String code, LocalDate start, LocalDate end) {
         LinkedHashMap<LocalDate, StockData> dataMap = new LinkedHashMap<>();
 
-        InputStream asStream = this.getClass().getClassLoader().getResourceAsStream(code + suffix);
+        String fileName = code + suffix;
+        InputStream asStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
+        if (asStream == null){
+            throw new RuntimeException(String.format("%s文件不存在，无法获取历史数据", fileName));
+        }
+
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(asStream))) {
             String line = reader.readLine();
             while (line != null){
@@ -34,8 +39,6 @@ public class FileStockDataSource implements StockDataSource {
                 }
                 line = reader.readLine();
             }
-        }catch (FileNotFoundException e){
-            throw new RuntimeException(String.format("%s文件不存在，无法获取历史数据", code));
         }catch (Throwable e){
             throw new RuntimeException(String.format("%s文件读取失败", code), e);
         }
