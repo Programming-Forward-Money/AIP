@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 public class FileStockDataSource implements StockDataSource {
 
     private static final String suffix = ".txt";
+    private static final DateTimeFormatter isoLocalDate = DateTimeFormatter.ofPattern("yyyy年M月d日");
 
     @Override
     public LinkedHashMap<LocalDate, StockData> getDataMap(String code, LocalDate start, LocalDate end) {
@@ -31,7 +32,7 @@ public class FileStockDataSource implements StockDataSource {
             String line = reader.readLine();
             while (line != null){
                 String[] datas = line.split("\t+");
-                LocalDate date = LocalDate.parse(datas[0], DateTimeFormatter.ISO_LOCAL_DATE);
+                LocalDate date = LocalDate.parse(datas[0], isoLocalDate);
                 // 在指定时间范围内
                 if(isAfterStart(start, date) && isBeforeEnd(end, date)){
                     BigDecimal openPrice = new BigDecimal(datas[1].replaceAll(",",""));

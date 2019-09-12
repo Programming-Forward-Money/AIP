@@ -8,9 +8,7 @@ import it.zh.data.DataSorceFactory;
 import it.zh.data.StockDataSource;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,12 +20,12 @@ import java.util.Map;
 public class App {
 
     public static void main( String[] args ){
-        String code = "yili";
+        String code = "kmyy";
         LocalDate start = null;
         LocalDate end = null;
 //        LocalDate start = LocalDate.of(2018, 1, 1);
 //        LocalDate end = LocalDate.of(2019, 9, 1);
-        BigDecimal budgetMoney = BigDecimal.valueOf(2000);
+        BigDecimal budgetMoney = BigDecimal.valueOf(100000);
 
         StockDataSource dataSource = DataSorceFactory.getDataSource();
         LinkedHashMap<LocalDate, StockData> dataMap = dataSource.getDataMap(code, start, end);
@@ -63,8 +61,10 @@ public class App {
             totalEarn = totalEarn.add(finalPrice.subtract(buyInPrice).multiply(buyInCount));
         }
 
-        System.out.println(String.format("定投覆盖了%s天，总成本：%s，总收益：%s，总收益率：%s",
-                lastData.getDate().toEpochDay() - firstData.getDate().toEpochDay(),
+        LocalDate firstDay = firstData.getDate();
+        LocalDate lastDay = lastData.getDate();
+        System.out.println(String.format("定投起始:%s，定投覆盖了%s天，总成本：%s，总收益：%s，总收益率：%s",
+                firstDay.toString() +"至"+lastDay.toString(), lastDay.toEpochDay() - firstDay.toEpochDay(),
                 totalCost, totalEarn, totalEarn.divide(totalCost, 10, BigDecimal.ROUND_HALF_DOWN)));
     }
 
