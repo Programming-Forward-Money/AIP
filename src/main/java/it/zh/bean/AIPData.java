@@ -45,9 +45,9 @@ public class AIPData {
 
     @Override
     public String toString() {
-        return "AIPData{" +
-                "buyInPrice=" + buyInPrice +
-                ", buyInCount=" + buyInCount +
+        return "{" +
+                "每股买入价=" + buyInPrice +
+                ", 买入股数=" + buyInCount +
                 '}';
     }
 }

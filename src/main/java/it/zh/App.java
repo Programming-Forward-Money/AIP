@@ -20,11 +20,11 @@ import java.util.Map;
 public class App {
 
     public static void main( String[] args ){
-        String code = "kmyy";
+        String code = "中证消费";
         LocalDate start = null;
         LocalDate end = null;
-//        LocalDate start = LocalDate.of(2018, 1, 1);
-//        LocalDate end = LocalDate.of(2019, 9, 1);
+        start = LocalDate.of(2018, 1, 1);
+        end = LocalDate.of(2020, 3, 29);
         BigDecimal budgetMoney = BigDecimal.valueOf(100000);
 
         StockDataSource dataSource = DataSorceFactory.getDataSource();
@@ -32,7 +32,9 @@ public class App {
         AIPMachine instance = AIPMachine.getInstance(AIPCycle.MONTH, budgetMoney);
         LinkedHashMap<LocalDate, AIPData> aipDataMap = instance.doAip(dataMap);
 
-        // 展示所有的定投计划，并取出第一个和最后一个定投点的数据
+        /**
+         * 打印出每一次定投，并取出第一个和最后一个定投点的数据
+          */
         AIPData firstData = null;
         AIPData lastData = null;
         Iterator<Map.Entry<LocalDate, AIPData>> iterator = aipDataMap.entrySet().iterator();
@@ -61,11 +63,24 @@ public class App {
             totalEarn = totalEarn.add(finalPrice.subtract(buyInPrice).multiply(buyInCount));
         }
 
+        /**
+         * 打印最终结果
+         */
+        String template = "定投起始:%s至%s，定投覆盖了%s天(%s月，%s年)\r\n总成本：%s，总收益：%s，总收益率：%s";
         LocalDate firstDay = firstData.getDate();
         LocalDate lastDay = lastData.getDate();
-        System.out.println(String.format("定投起始:%s，定投覆盖了%s天，总成本：%s，总收益：%s，总收益率：%s",
-                firstDay.toString() +"至"+lastDay.toString(), lastDay.toEpochDay() - firstDay.toEpochDay(),
-                totalCost, totalEarn, totalEarn.divide(totalCost, 10, BigDecimal.ROUND_HALF_DOWN)));
+        long durationDays = lastDay.toEpochDay() - firstDay.toEpochDay();
+        Object[] variables = {
+                firstDay,
+                lastDay,
+                durationDays,
+                durationDays / 30.0,
+                durationDays / 365.0,
+                totalCost,
+                totalEarn,
+                totalEarn.divide(totalCost , 10, BigDecimal.ROUND_HALF_DOWN).multiply(BigDecimal.valueOf(100))+"%"
+        };
+        System.out.println(String.format(template, variables));
     }
 
 }
