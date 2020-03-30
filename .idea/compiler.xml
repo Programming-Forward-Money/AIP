@@ -7,7 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="AIP" />
+        <module name="aip" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="aip" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
