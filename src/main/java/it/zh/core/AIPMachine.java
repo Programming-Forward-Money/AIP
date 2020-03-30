@@ -20,8 +20,6 @@ public class AIPMachine {
     /** 定投预期额度 */
     private BigDecimal budgetMoney;
 
-    private AIPMachine(){}
-
     private AIPMachine(AIPCycle cycle, BigDecimal budgetMoney){
         this.cycle = cycle;
         this.budgetMoney = budgetMoney;
@@ -54,6 +52,14 @@ public class AIPMachine {
 
         return result;
     }
+
+    /**
+     * 根据定投节点的所有记录，和抛售节点，算出收益的钱数
+     */
+    public LinkedHashMap<LocalDate, AIPData> profit(LinkedHashMap<LocalDate, StockData> dataMap){
+        return null;
+    }
+
 
     /**
      * 今天是否应该定投，每个周期应该只定投一次

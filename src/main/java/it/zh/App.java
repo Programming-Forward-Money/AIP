@@ -20,15 +20,16 @@ import java.util.Map;
 public class App {
 
     public static void main( String[] args ){
-        String code = "上证50";
+        String code = "中证消费";
         LocalDate start = null;
         LocalDate end = null;
-        start = LocalDate.of(2010, 1, 1);
-        end = LocalDate.of(2014, 3, 29);
+        start = LocalDate.of(2018, 1, 1);
+        end = LocalDate.of(2020, 1, 1);
         BigDecimal budgetMoney = BigDecimal.valueOf(100000);
 
         StockDataSource dataSource = DataSorceFactory.getDataSource();
         LinkedHashMap<LocalDate, StockData> dataMap = dataSource.getDataMap(code, start, end);
+
         AIPMachine instance = AIPMachine.getInstance(AIPCycle.MONTH, budgetMoney);
         LinkedHashMap<LocalDate, AIPData> aipDataMap = instance.doAip(dataMap);
 
