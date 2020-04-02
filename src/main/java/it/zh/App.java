@@ -20,11 +20,11 @@ import java.util.Map;
 public class App {
 
     public static void main( String[] args ){
-        String code = "中证消费";
+        String code = "国证食品";
         LocalDate start = null;
         LocalDate end = null;
-        start = LocalDate.of(2018, 1, 1);
-        end = LocalDate.of(2020, 1, 1);
+//        start = LocalDate.of(2018, 1, 1);
+//        end = LocalDate.of(2020, 1, 1);
         BigDecimal budgetMoney = BigDecimal.valueOf(100000);
 
         StockDataSource dataSource = DataSorceFactory.getDataSource();
