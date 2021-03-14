@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
 /**
  * 通过文件的形式，获取到股票的价格数据
@@ -19,8 +20,8 @@ public class FileStockDataSource implements StockDataSource {
     private static final DateTimeFormatter isoLocalDate = DateTimeFormatter.ofPattern("yyyy年M月d日");
 
     @Override
-    public LinkedHashMap<LocalDate, StockData> getDataMap(String code, LocalDate start, LocalDate end) {
-        LinkedHashMap<LocalDate, StockData> dataMap = new LinkedHashMap<>();
+    public TreeMap<LocalDate, StockData> getDataMap(String code, LocalDate start, LocalDate end) {
+        TreeMap<LocalDate, StockData> dataMap = new TreeMap<>();
 
         String fileName = code + suffix;
         InputStream asStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
@@ -31,17 +32,17 @@ public class FileStockDataSource implements StockDataSource {
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(asStream))) {
             String line = reader.readLine();
             while (line != null){
-                String[] datas = line.split("\t+");
-                LocalDate date = LocalDate.parse(datas[0], isoLocalDate);
+                String[] dataList = line.split("\t+");
+                LocalDate date = LocalDate.parse(dataList[0], isoLocalDate);
                 // 在指定时间范围内
                 if(isAfterStart(start, date) && isBeforeEnd(end, date)){
-                    BigDecimal openPrice = new BigDecimal(datas[1].replaceAll(",",""));
-                    BigDecimal closePrice = new BigDecimal(datas[2].replaceAll(",",""));
+                    BigDecimal openPrice = new BigDecimal(dataList[1].replaceAll(",",""));
+                    BigDecimal closePrice = new BigDecimal(dataList[2].replaceAll(",",""));
                     dataMap.put(date, StockData.of(date, openPrice, closePrice));
                 }
                 line = reader.readLine();
             }
-        }catch (Throwable e){
+        }catch (Exception e){
             throw new RuntimeException(String.format("%s文件读取失败", code), e);
         }
 
@@ -49,7 +50,7 @@ public class FileStockDataSource implements StockDataSource {
     }
 
     @Override
-    public LinkedHashMap<LocalDate, StockData> getDataMap(String code) {
+    public TreeMap<LocalDate, StockData> getDataMap(String code) {
         return getDataMap(code, null, null);
     }
 

@@ -4,6 +4,7 @@ import it.zh.bean.StockData;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
 /**
  * 股票/指数的数据源接口
@@ -18,7 +19,7 @@ public interface StockDataSource {
      * @param end
      * @return
      */
-    LinkedHashMap<LocalDate, StockData> getDataMap(String code, LocalDate start, LocalDate end);
+    TreeMap<LocalDate, StockData> getDataMap(String code, LocalDate start, LocalDate end);
 
     /**
      * 获取所有天数的股票数据
@@ -26,6 +27,6 @@ public interface StockDataSource {
      * @param code
      * @return
      */
-    LinkedHashMap<LocalDate, StockData> getDataMap(String code);
+    TreeMap<LocalDate, StockData> getDataMap(String code);
 
 }

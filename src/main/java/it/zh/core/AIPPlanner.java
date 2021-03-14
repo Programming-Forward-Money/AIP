@@ -13,20 +13,20 @@ import java.util.*;
  * 定投器
  * 决定周期(月、周、天)、每个周期的第几天、定投多少钱....
  */
-public class AIPMachine {
+public class AIPPlanner {
 
     /** 定投周期 */
-    private AIPCycle cycle;
-    /** 定投预期额度 */
-    private BigDecimal budgetMoney;
+    private final AIPCycle cycle;
+    /** 每次定投多少钱 */
+    private final BigDecimal budgetMoney;
 
-    private AIPMachine(AIPCycle cycle, BigDecimal budgetMoney){
+    private AIPPlanner(AIPCycle cycle, BigDecimal budgetMoney){
         this.cycle = cycle;
         this.budgetMoney = budgetMoney;
     }
 
-    public static AIPMachine getInstance(AIPCycle cycle, BigDecimal budgetMoney){
-        return new AIPMachine(cycle, budgetMoney);
+    public static AIPPlanner getInstance(AIPCycle cycle, BigDecimal budgetMoney){
+        return new AIPPlanner(cycle, budgetMoney);
     }
 
     /**
@@ -34,14 +34,13 @@ public class AIPMachine {
      * @param dataMap   股票的历史数据
      * @return
      */
-    public LinkedHashMap<LocalDate, AIPData> doAip(LinkedHashMap<LocalDate, StockData> dataMap){
-        LinkedHashMap<LocalDate, AIPData> result = new LinkedHashMap<>();
+    public TreeMap<LocalDate, AIPData> plan(TreeMap<LocalDate, StockData> dataMap){
+        TreeMap<LocalDate, AIPData> result = new TreeMap<>();
 
         Iterator<Map.Entry<LocalDate, StockData>> iterator = dataMap.entrySet().iterator();
         Set<String> cycleCache = new HashSet<>();
         while (iterator.hasNext()){
             Map.Entry<LocalDate, StockData> data = iterator.next();
-
             if(shouldBuy(data, cycleCache)){
                 BigDecimal openPrice = data.getValue().getOpenPrice();
                 // 用预算额度算出这次，最多能买多少份
@@ -52,14 +51,6 @@ public class AIPMachine {
 
         return result;
     }
-
-    /**
-     * 根据定投节点的所有记录，和抛售节点，算出收益的钱数
-     */
-    public LinkedHashMap<LocalDate, AIPData> profit(LinkedHashMap<LocalDate, StockData> dataMap){
-        return null;
-    }
-
 
     /**
      * 今天是否应该定投，每个周期应该只定投一次
@@ -74,7 +65,6 @@ public class AIPMachine {
             cache.add(cacheKey);
             return true;
         }
-
         return false;
     }
 
